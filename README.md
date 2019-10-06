@@ -4,7 +4,7 @@
 - 場所：中央水産研究所　横浜庁舎　講堂（3F）
 　　　横浜市金沢区福浦2-12-4
 - 講師：岡村寛・市野川桃子・西嶋翔太・秋田鉄也（中央水産研究所　資源研究センター）
-- ホームページ　https://ichimomo.github.io/shigen_kensyu2019A/
+- [ホームページ](https://ichimomo.github.io/shigen_kensyu2019A/)
 
 - プログラム
    - 10月8日（火）
@@ -14,4 +14,4 @@
    - 17:30～　意見交換会（懇親会）
    - 10月9日（水）
    - 9:00～10:30 個体群動態モデルを用いた資源評価	西嶋
-   - 10:40～12:10 管理戦略評価法	市野川　スライド（まだ途中です）：https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_file.html
+   - 10:40～12:10 管理戦略評価法	市野川　[スライド（まだ途中です）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_file.html)
