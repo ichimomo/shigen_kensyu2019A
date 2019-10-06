@@ -1,0 +1,137 @@
+# 
+
+# Cross Validationの例
+
+##
+
+set.seed(17)
+
+b0 <- 0.1
+b1 <- 0.2
+b2 <- -0.2
+b3 <- 0.2
+b4 <- -0.3
+
+x <- runif(100,0,1)
+pred.y <- b0+b1*x+b2*x^2+b3*x^3+b4*x^4
+y <- rnorm(100,pred.y,0.02)
+
+id <- sample(100,80)
+y.train <- y[id]
+x.train <- x[id]
+
+y.test <- y[-id]
+x.test <- x[-id]
+
+mod <- list()
+train.err <- test.err <- NULL
+
+dat.train <- data.frame(x=x.train, y=y.train)
+dat.test <- data.frame(x=x.test, y=y.test)
+
+for (i in 1:10){
+ mod[[i]] <- lm(y~poly(x,i),data=dat.train)
+ train.err <- c(train.err, mean((y.train-predict(mod[[i]]))^2))
+ test.err <- c(test.err, mean((y.test-predict(mod[[i]],newdata=dat.test))^2))
+}
+
+par(mfrow=c(1,2))
+plot(x, y, col="brown", xlab="X", ylab="Y", cex=2.5, pch=16)
+plot(train.err,type="b",cex=2.5,col="blue",pch=16,xlab="Degree",ylab="Error Rate")
+points(test.err,type="b",cex=2.5,col="red",pch=18)
+legend("topright",c("Training Error","Test Error"),col=c("blue","red"),pch=c(16,18),cex=1.5, lty=1)
+
+# data読み込み
+#
+
+datfish <- read.csv("datfish.csv")
+
+# パッケージ読み込み
+
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(gbm)
+library(ROCR)
+
+## Decision Tree, Bagging, & Boosting
+
+# Decision Tree
+
+set.seed(1)
+
+train <- sample(100,75)
+datfish.train <- datfish[train,]
+res.dt <- rpart(fish ~ SST+W, data=datfish.train,method="class", parms=list(split="gini"))
+
+rpart.plot(res.dt)
+
+printcp(res.dt)
+plotcp(res.dt)
+
+pred.dt <- predict(res.dt,datfish,type="prob")
+pred <- prediction(as.numeric(pred.dt[-train,2]), datfish$fish[-train])
+perf.dt <- performance(pred, "tpr", "fpr")
+auc.tmp <- performance(pred,"auc")
+(auc.dt <- as.numeric(auc.tmp@y.values))
+
+# Bagging (Random Forest)
+
+res.bg <- randomForest(as.factor(fish) ~ SST+W, mtry=2, data = datfish.train) 
+
+pred.bg <- predict(res.bg,dat.fish,type="prob")
+pred <- prediction(as.numeric(pred.bg[-train,2]), datfish$fish[-train])
+perf.bg <- performance(pred, "tpr", "fpr")
+auc.tmp <- performance(pred,"auc")
+(auc.bg <- as.numeric(auc.tmp@y.values))
+
+res.rf <- randomForest(as.factor(fish) ~ SST+W, data = datfish.train) 
+
+varImpPlot(res.rf)
+
+pred.rf <- predict(res.rf,dat.fish,type="prob")
+pred <- prediction(as.numeric(pred.rf[-train,2]), datfish$fish[-train])
+perf.rf <- performance(pred, "tpr", "fpr")
+auc.tmp <- performance(pred,"auc")
+(auc.rf <- as.numeric(auc.tmp@y.values))
+
+plot(perf.dt,main=paste("AUC =",round(auc.dt,2),",",round(auc.bg,2),",",round(auc.rf,2)),lwd=3,lty=2,col="black")
+plot(perf.bg,col="blue",lwd=3,lty=3,add=TRUE)
+plot(perf.rf,col="red",lwd=3,lty=4,add=TRUE)
+abline(0,1,col="orange",lwd=3,lty=1) 
+legend("bottomright",c("Decision Tree","Bagging","Random Forest"),col=c("black","blue","red"),lty=2:4,lwd=3,cex=1.5)
+
+# Boosting
+
+res.ab <- gbm(fish ~ SST+W, data = datfish.train,distribution = "adaboost", n.trees = 100, bag.fraction=1, shrinkage = 1,  interaction.depth = 1, cv.folds = 5) 
+
+res.gb <- gbm(fish ~ SST+W, data = datfish.train,distribution = "bernoulli", n.trees = 100, bag.fraction=1, shrinkage = 1,  interaction.depth = 1, cv.folds = 5) 
+
+res.sgb <- gbm(fish ~ SST+W, data = datfish.train,distribution = "bernoulli", n.trees = 100, bag.fraction=0.5, shrinkage = 0.1, interaction.depth = 2, cv.folds = 5) 
+
+summary(res.sgb)
+
+pred.ab <- predict(res.ab,dat.fish,type="response")
+pred <- prediction(as.numeric(pred.ab)[-train], datfish$fish[-train])
+perf.ab <- performance(pred, "tpr", "fpr")
+auc.tmp <- performance(pred,"auc")
+(auc.ab <- as.numeric(auc.tmp@y.values))
+
+pred.gb <- predict(res.gb,dat.fish,type="response")
+pred <- prediction(as.numeric(pred.gb)[-train], datfish$fish[-train])
+perf.gb <- performance(pred, "tpr", "fpr")
+auc.tmp <- performance(pred,"auc")
+(auc.gb <- as.numeric(auc.tmp@y.values))
+
+pred.sgb <- predict(res.sgb,dat.fish,type="response")
+pred <- prediction(as.numeric(pred.sgb)[-train], datfish$fish[-train])
+perf.sgb <- performance(pred, "tpr", "fpr")
+auc.tmp <- performance(pred,"auc")
+(auc.sgb <- as.numeric(auc.tmp@y.values))
+
+plot(perf.ab,main=paste("AUC =",round(auc.ab,2),",",round(auc.gb,2),",",round(auc.sgb,2)),lwd=3,lty=2,col="black")
+plot(perf.gb,col="blue",lwd=3,lty=3,add=TRUE)
+plot(perf.sgb,col="red",lwd=3,lty=4,add=TRUE)
+abline(0,1,col="orange",lwd=3,lty=1) 
+legend("bottomright",c("AdaBoost","Gradient Boosting","Stochastic Gradient Boosting"),col=c("black","blue","red"),lty=2:4,lwd=3,cex=1.5)
+
