@@ -14,4 +14,4 @@
    - 17:30～　意見交換会（懇親会）
    - 10月9日（水）
    - 9:00～10:30 個体群動態モデルを用いた資源評価	西嶋
-   - 10:40～12:10 管理戦略評価法	市野川　[スライド（まだ途中です）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_file.html)
+   - 10:40～12:10 管理戦略評価法	市野川　[スライド（ほぼ完成版）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.html)
