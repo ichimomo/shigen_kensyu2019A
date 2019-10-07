@@ -8,10 +8,10 @@
 
 - プログラム
    - 10月8日（火）
-   - 13:30～13:50 研修会の概要と流れ
+   - 13:30～13:50 [研修会の概要と流れ](https://ichimomo.github.io/shigen_kensyu2019A/introduction.pdf)
    - 13:50～15:20 機械学習の水産資源データ解析への応用	岡村
    - 15:20～17:00 標識再捕法と遺伝情報の利活用	秋田
    - 17:30～　意見交換会（懇親会）
    - 10月9日（水）
    - 9:00～10:30 個体群動態モデルを用いた資源評価	西嶋
-   - 10:40～12:10 管理戦略評価法	市野川　[スライド（ほぼ完成版）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.html)
+   - 10:40～12:10 管理戦略評価法	市野川　[スライド（ほぼ完成版, html）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.html) [スライド（ほぼ完成版, pdf）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.pdf)
