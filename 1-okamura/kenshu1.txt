@@ -89,6 +89,9 @@ res.rf <- randomForest(as.factor(fish) ~ SST+W, data = datfish.train)
 
 varImpPlot(res.rf)
 
+partialPlot(res.rf, datfish, W, 1)
+partialPlot(res.rf, datfish, SST, 1)
+
 pred.rf <- predict(res.rf,dat.fish,type="prob")
 pred <- prediction(as.numeric(pred.rf[-train,2]), datfish$fish[-train])
 perf.rf <- performance(pred, "tpr", "fpr")
@@ -110,6 +113,9 @@ res.gb <- gbm(fish ~ SST+W, data = datfish.train,distribution = "bernoulli", n.t
 res.sgb <- gbm(fish ~ SST+W, data = datfish.train,distribution = "bernoulli", n.trees = 100, bag.fraction=0.5, shrinkage = 0.1, interaction.depth = 2, cv.folds = 5) 
 
 summary(res.sgb)
+
+plot(res.sgb,i="W")
+plot(res.sgb,i="SST")
 
 pred.ab <- predict(res.ab,dat.fish,type="response")
 pred <- prediction(as.numeric(pred.ab)[-train], datfish$fish[-train])
