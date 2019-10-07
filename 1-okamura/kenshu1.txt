@@ -135,9 +135,10 @@ perf.sgb <- performance(pred, "tpr", "fpr")
 auc.tmp <- performance(pred,"auc")
 (auc.sgb <- as.numeric(auc.tmp@y.values))
 
+par(mfrow=c(1,1))
+
 plot(perf.ab,main=paste("AUC =",round(auc.ab,2),",",round(auc.gb,2),",",round(auc.sgb,2)),lwd=3,lty=2,col="black")
 plot(perf.gb,col="blue",lwd=3,lty=3,add=TRUE)
 plot(perf.sgb,col="red",lwd=3,lty=4,add=TRUE)
 abline(0,1,col="orange",lwd=3,lty=1) 
 legend("bottomright",c("AdaBoost","Gradient Boosting","Stochastic Gradient Boosting"),col=c("black","blue","red"),lty=2:4,lwd=3,cex=1.5)
-
