@@ -39,7 +39,9 @@ theme: default
    - MSEの流れ
    - MSEの利点・欠点・まとめ
 - 2系ルールのMSE
-- まとめ
+   - 背景
+   - Rのコード解説
+- MSE全体のまとめ
     		
 ---
 	
@@ -219,6 +221,26 @@ dev.off()
      
 ---
 
+# 文献（一般）
+- ICES Journal (2007) 64号（MSE特集）
+   - Punt and Donovan: IWCのMSEなどの話からMSEのの流れ
+   - Rademeyer et al: とくにOMの細かい設定。用語集。
+   - Butterworth: MSEの利点と欠点
+- Punt et al (2016) Management strategy evaluation: Best practices. Fish and Fisheries. 17: 303–334. https://doi.org/10.1111/faf.12104 
+- 平松一彦. (2018). 管理戦略評価(MSE)による不確実性の考慮. 月刊海洋, 50, 481–485.
+- MSE本: Management Science in Fisheries ： An introduction to simulation-based methods (ISBN： 1138806803)
+
+--- 
+
+# 文献（個々の事例）
+
+- ミナミマグロ
+   - Hillary et al (2015) A scientific alternative to moratoria for rebuilding depleted international tuna stocks. Fish and Fisheries. https://doi.org/10.1111/faf.12121
+   - Kurota et al (2010) Developing a management procedure robust to uncertainty for southern bluefin tuna: a somewhat frustrating struggle to bridge the gap between ideals and reality. Population Ecology, 52(3), 359–372. https://doi.org/10.1007/s10144-010-0201-1
+
+---
+
+
 <!-- header: MSEの流れ  -->
      	
 # MSEの流れ
@@ -337,6 +359,18 @@ https://www.pewtrusts.org/-/media/assets/2019/09/harvest-strategies-translations
 	 
 ---
 
+![width:27cm](figures/fig-snail.PNG)
+
+---
+
+![width:27cm](figures/fig-boxchart.PNG)
+
+---
+
+![width:27cm](figures/fig-raddarchart.PNG)
+
+---
+
 <!-- header: MSEの利点・欠点・まとめ -->
 
 # 従来型アプローチ(TA)に対するMSEの利点
@@ -374,14 +408,16 @@ https://www.pewtrusts.org/-/media/assets/2019/09/harvest-strategies-translations
 
 > :smirk: 商業捕鯨のモラトリアム中、商業捕鯨再開時の捕鯨量になかなか科学的に合意ができませんでしたが、系群構造の不確実性等を考慮したMSEを通して開発したMP（改定管理方式）で科学合意に至ることができました。でも結局商業捕鯨は再開されませんでしたが、、、。(Punt and Donovan, 2007)
 
-> :laughing: ミナミマグロは一時かなり減っちゃって、資源量の推定結果について国際裁判にまでなりましたが、紆余曲折を経てMPに合意し、資源も順調に増えています。かかった労力・費用は膨大でした。(Hirary)
+> :laughing: BCのギンダラのTACが減りすぎるときがあり、どんなときでもちょっとだけ漁獲できるTACの下限を設定してほしかったんですが、MSEでTACの下限値の影響をちゃんと評価でき、危険でない程度のTACの下限設定に合意できました (MSE本, 5章)
 
 ---
 
 # MSEをやってよかった！
 # そんな声が続々届いています！
 
-> :smiley: 大西洋クロマグロは再生産関係も全然わからないし、レジームシフトっぽい現象が見られていたのでMSYが推定できませんでした。でもMSEをやったらF0.1が良さそうということになり、それを管理基準値として採用しました (Kell and Fromentin)
+> :smiley: 大西洋クロマグロは再生産関係も全然わからないし、レジームシフトっぽい現象が見られていたのでMSYが推定できませんでした。でもMSEをやったらF0.1が良さそうということになり、それを管理基準値として採用しました (Kell and Fromentin. 2007. Canadian Journal)
+
+> :octopus: ベーリング海のズワイガニでもやっぱりレジームシフトが疑われていましたが、レジームシフトを考慮した管理をすると、漁獲量はちょっと増えますが、それ以上にレジームシフトの判断のミスにより乱獲の危険が増すことがわかりました(MSE本, 7章)
 
 > :satisfied: 南アフリカのロブスター漁業では、MSEの導入前にはTACを決めるのに40回も会議を開いていましたが、MSE導入後は4回に減りました (Butterworth 2007)
 
@@ -412,7 +448,7 @@ https://www.pewtrusts.org/-/media/assets/2019/09/harvest-strategies-translations
 
 # 2系ルールとMSE
 
-##  新2系ルールも同じMSEで評価た上で、現行ルールよりも良いパフォーマンスを示すものを選択します（今日の午後の会議）
+##  新2系ルールも同じMSEで評価した上で、現行ルールよりも良いパフォーマンスを示すものを選択します（今日の午後の会議）
 
 ## もともと2系はどんなMSEで決められたのか？復習的な意味で...
 
@@ -500,12 +536,26 @@ https://www.pewtrusts.org/-/media/assets/2019/09/harvest-strategies-translations
 ---
 
 ### OMを実際に動かしてみよう
-- abchanのページ　http://abchan.fra.go.jp/nc/htdocs/?page_id=765#_1543 から23kei_simulation.txtをダウンロード
-- 重要な設定部分
-   - 687行目：`if(0)`を`if(1)`に変えるとテストコードが実行される
-   - 691行目：`n <- 100`（ひとつのOMの繰り返し計算回数。実際は1000回だが時間がかかるので）
-   - 697行目：`delta <- rbind(c(1,1,0.8), c(1,0.9,0.7), c(1,1,0.9)) `　ほんとうはもっと多くの組み合わせがあるが、現行ルール1-1-0.8と対立ルール2つを比較してみる
-   - 701行目：2系ルール（CPUEのみ利用）のテスト条件
+- abchanのページ　http://abchan.fra.go.jp/nc/htdocs/?page_id=765#_1543 から23kei_simulation_kenshu.txt（研修会用、もっといろんな設定が試されていルファいるは23kei_simulation.txt）をダウンロード
+- 重要な設定部分は696行目以降
+
+```
+if(1){   # `if(0)`を`if(1)`に変えるとテストコードが実行される
+  n <- 100 # ひとつのOMの繰り返し計算回数。実際は1000回だが時間がかかるので
+  r.tmp <- c(0.3,0.5,0.7) # reference setのパラメータ
+  si.tmp <- c(0.2,0.4) 
+  sr.tmp <- c(0.2,0.4)
+  k.tmp <- c(1)
+
+　# deltaを3通り試してみる
+  delta <- rbind(c(1,1,0.8), c(1,0.9,0.7), c(1,1,0.9)) 
+  colnames(delta) <- c("high","mid","low")
+
+  # 現行の2系ルールのテスト
+  bres5_pt <- do.scenario(delta,n=n,r.tmp=r.tmp,si.tmp=si.tmp,sr.tmp=sr.tmp,k.tmp=k.tmp,label="bres5_pt",man.option="ABC",n.catch=1,Bref=0.8,PL=0.7,PB=0.0)
+ }
+```
+
    
 ```
 source("23kei_simulation.txt")
@@ -534,36 +584,30 @@ head(bres5_pt$psdata[c("r","si","sr","delta2","S","E","Bave.ratio.median","Cave.
    - Prob.B: 20年間でSSBが0.2Bmsy以下に一回でもなる確率
 ---
 
-### パフォーマンス指標：B/BMSYとC/MSY
-
-- たとえば、１０８通りのB/B_MSYとC/MSYの分布を２つの管理方策で比較
-
-<!---
-png(file="figures/fig-2kei1.png",height=200,width=500)
-par(mar=c(4,4,1,1))
--->
+### 可視化：箱型図で3つのパフォーマンス指標を比較
+- B/B_MSY(B_MSY達成度), C/MSY(MSY達成度), 1-Prob. B(リスク)
 
 ```
-# 生のRを使う場合
-psdata <- bres5_pt$psdata
-plot(psdata$Bave.ratio.median,psdata$Cave.ratio.median,
-     col=factor(psdata$delta2),pch=as.numeric(factor(psdata$delta2)),
-	 xlab="B/Bmsy",ylab="C/MSY")
-legend("topright",pch=1:3,col=1:3,legend=unique(psdata$delta2))	 
+library(tidyverse)
+bres5_pt$psdata %>% gather(key=stat, value=value, Bave.ratio.median, Cave.ratio.median, Prob.B) %>%
+	ggplot() +
+    geom_boxplot(aes(x=factor(delta2),y=value))+
+	facet_wrap(.~stat,scale="free_y")+
+    theme_bw(base_size=20)+xlab("MP")
 ```
+
 <!---
-dev.off()
+ggsave(file="figures/fig-2keibos.png",height=4,width=14)
 --->
 
-![width:20cm](figures/fig-2kei1.png)
+![width:20cm](figures/fig-2keibos.png)
 
 ---
 
-### パフォーマンス指標：B/BMSYとC/MSY
-- たとえば、１０８通りのB/B_MSYとC/MSYの分布を２つの管理方策で比較
+### パフォーマンス指標：B/BMSYとC/MSYの関係
+- B/B_MSYとC/MSYの関係（トレードオフ）
 
 ```
-# ggplotを使う場合
 library(tidyverse)
 bres5_pt$psdata %>% ggplot() +
     geom_point(aes(x=Bave.ratio.median,y=Cave.ratio.median,
@@ -580,8 +624,8 @@ ggsave(g2,file="figures/fig-2kei2.png",height=4,width=10)
 ---
 
 ### パフォーマンス指標：B/BMSYとC/MSY
-- 保守的な管理手法(1-0.9-0.7)は右下のほうにプロットが分布する傾向（漁獲量を犠牲にして資源保護を重視）
-- どのOMも平均的にはB>B_MSY.どこまで保護を重視すべき？
+- 保守的な管理手法(1-0.9-0.7)ほど右下のほうにプロットが分布（漁獲量を犠牲にして資源保護を重視）。資源が減りすぎると漁獲量も減る(1-1-0.9)
+- どこまで保護を重視すべき？
 - B/BMSYの中央値だけでは「リスク（分布の裾のほう）」を評価できない
 
 ![width:20cm](figures/fig-2kei2.png)
