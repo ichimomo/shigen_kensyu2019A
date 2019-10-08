@@ -1,10 +1,8 @@
 ---
 theme: default
----	
-
-<!-- size: 16:9 -->
-<!-- page_number: true -->
-
+paginate: true
+size: 16:9 
+---
 
 # 4. 管理戦略評価法 <br> (Management Strategy Evaluation, MSE)
 
