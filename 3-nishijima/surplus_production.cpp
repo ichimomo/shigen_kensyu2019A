@@ -34,7 +34,7 @@ Type objective_function<Type>::operator() ()
     if(SP_type==0){ //Scheffer
       pred_B += r*B(i-1)*(1-B(i-1)/K)-Catch(i-1);
     }else{ // Fox
-      pred_B += r*B(i-1)*(1-log_B(i-1)/log_K)-Catch(i-1);
+      pred_B += r*B(i-1)*(log_K-log_B(i-1))-Catch(i-1);
     }
     nll -= dnorm(log_B(i),log(pred_B),sigma_pro,true);
   }
