@@ -63,7 +63,6 @@ poissonRE_opt = nlminb(beta, poissonRE_obj)
 poissonRE_opt$par # parameters
 poissonRE_opt$objective #negative log-likelihood
 
-
 ## use TMB
 library(TMB)
 compile("glmm_poisson.cpp")
@@ -116,18 +115,21 @@ params = list(log_r=log(r),log_K=log(k),log_sigma_pro=log(sigma_pro),
 obj = MakeADFun(data, params, random="log_B",DLL="surplus_production")
 opt = nlminb(obj$par, obj$fn, obj$gr)
 sdrep = sdreport(obj,bias.correct=TRUE) #random effect
+
 (r_est = exp(obj$env$parList()$log_r))
 (K_est =exp(obj$env$parList()$log_K))
-opt$objective
-
 r_est*K_est/4  # MSY estimate
 
 exp(obj$env$parList()$log_sigma_pro)
 exp(obj$env$parList()$log_sigma_obs)
 B_est = sdrep$unbiased$value
 
-matplot(cbind(B_vec,B_est),type="l",lwd=2,ylab="Biomass")
-matplot(cbind(B_vec/k,B_est/K_est),type="l",lwd=2,ylab="B/K")
+matplot(cbind(B_vec,B_est),type="l",lwd=3,ylab="Biomass",lty=1,
+        main="Biomass")
+legend("bottomright",legend=c("True","Estimate"),col=1:2,lty=1,cex=1.5,lwd=2)
+matplot(cbind(B_vec/k,B_est/K_est),type="l",lwd=3,ylab="B/K",lty=1,
+        main = "Depletion rate")
+legend("bottomright",legend=c("True","Estimate"),col=1:2,lty=1,cex=1.5,lwd=2)
 
 # Fox model
 

@@ -30,13 +30,13 @@ Type objective_function<Type>::operator() ()
   Type nll=0;
   
   for(int i=1;i<Catch.size();i++){ //Process likelihood
-    Type pred_B = B(i-1);
+    Type pred_SP = 0;
     if(SP_type==0){ //Scheffer
-      pred_B += r*B(i-1)*(1-B(i-1)/K)-Catch(i-1);
+      pred_SP += r*B(i-1)*(1-B(i-1)/K);
     }else{ // Fox
-      pred_B += r*B(i-1)*(log_K-log_B(i-1))-Catch(i-1);
+      pred_SP += r*B(i-1)*(log_K-log_B(i-1));
     }
-    nll -= dnorm(log_B(i),log(pred_B),sigma_pro,true);
+    nll -= dnorm(log(B(i)-B(i-1)+Catch(i-1)),log(pred_SP),sigma_pro,true);
   }
   
   // observation likelihood
