@@ -1,4 +1,4 @@
-// glmm with Poisson distribution 
+// surplus production model
 
 #include <TMB.hpp>
 #include <iostream>
