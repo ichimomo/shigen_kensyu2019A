@@ -308,6 +308,13 @@ dev.off()
    - 過去のデータのバイアス, 将来のデータ不足, レジームシフト, 選択率の変化, 生態系
 
 ---				
+# ミナミマグロのreference set
+
+![width:27cm](figures/fig-sbt.PNG)
+
+<!-- _footer: MSE本 8章 --> 
+
+---
 
 <!-- header: MSEの流れ: 管理方策 -->
 
@@ -338,6 +345,12 @@ dev.off()
 > MPで大事なのは「良いパフォーマンス・頑健性」であって，仮定の「現実性」ではない．
 
 :arrow_right: 新ルールでのHSを使ったHCRもある意味MPの一種．HSの利用はあてはまりの良さというより，頑健性やパフォーマンスが重視される
+
+---
+
+![width:27cm](figures/HS-MSE.png)
+
+<!-- _footer: 市野川 (投稿準備中)  --> 
 
 ---
 
@@ -517,6 +530,9 @@ https://www.pewtrusts.org/-/media/assets/2019/09/harvest-strategies-translations
 # 3. 核となるシミュレーションモデル
 
 - **個体群動態の構造**：プロダクションモデル型
+
+$B_{t+1}={B_t+rB_t[1-(B_t/K)^\theta -C_t]}\exp(\epsilon_t-0.5\sigma_R^2)$
+
 - **Conditioning**： 2系が適用される資源一般が想定されているため、条件づけは実施せず
 - **Reference set**： 現実にありえそうな範囲でパラメーを選択し、それらの網羅的な組み合わせからなる複数のOMを参照モデルセットとした
 
@@ -529,8 +545,13 @@ https://www.pewtrusts.org/-/media/assets/2019/09/harvest-strategies-translations
    - プロセス誤差 $\sigma_r$ (=0.2, 0.4)
    - CPUEの観察誤差 $\sigma_I$ (=0.2, 0.4)
    - 過去の資源のトレンド（9タイプ)
+
 - **頑健性テスト**
    - プロセス誤差の自己相関・管理の実施誤差（バイアス・ランダム）
+---
+
+![width:20cm](figures/scenario.PNG)
+
 ---
 
 ### OMを実際に動かしてみよう
@@ -561,6 +582,14 @@ source("23kei_simulation.txt")
 ```
 
 ---
+
+<!---
+a <- load("r0.3-si0.2-sr0.2-k1-bres5_pt.R")
+res$sname <- res$sname %>%
+    mutate(delta=str_c(res$sname$low,res$sname$mid,res$sname$high,sep="-"))
+sapply(res$Res.all[res$sname$delta=="0.8-1-1"],
+                 function(x) apply(x$res$Biomass,2,mean))
+--->
 
 ### 出力結果
 
@@ -742,7 +771,6 @@ ggsave(file="figures/fig-2kei4-2.png",height=3,width=6)
 
 # :sparkles: :sparkles: Let's MSE :sparkles: :sparkles:
 
-- ただし、MSEの質はピンキリ？「MSEで確かめた」＝「水戸黄門の印籠」ではない。内容の確認、評価は必要
 
 ---
 
