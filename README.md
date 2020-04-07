@@ -13,5 +13,5 @@
    - 15:20～17:00 標識再捕法と遺伝情報の利活用	秋田
    - 17:30～　意見交換会（懇親会）
    - 10月9日（水）
-   - 9:00～10:30 個体群動態モデルを用いた資源評価	西嶋
-   - 10:40～12:10 管理戦略評価法	市野川　[スライド（html）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.html) [スライド（pdf）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.pdf)
+   - 9:00～10:30 個体群動態モデルを用いた資源評価	西嶋 [ビデオ（一部ユーザーのみ）](https://web.microsoftstream.com/video/b9bc8509-ef35-4ed7-92d4-d7ae25b6e3fd)
+   - 10:40～12:10 管理戦略評価法	市野川　[スライド（html）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.html) [スライド（pdf）](https://ichimomo.github.io/shigen_kensyu2019A/4-ichinokawa/presen_ichinokawa.pdf) [ビデオ（一部ユーザーのみ）](https://web.microsoftstream.com/video/b99b0ee6-5d7c-4f8d-8f1d-6e6d0f2929a0)
